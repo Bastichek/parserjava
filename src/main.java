@@ -29,7 +29,7 @@ public class main {
             for (int j = 0; j < lines.size(); j++) {
                 if (lines.get(j).contains(sear)) {
                     writer.write(lines.get(j) + "\n");
-                    System.out.println("Найдено в строке: " + j);
+                    System.out.println("Найдено в строке: " + j + " / " + lines.size());
                 }
             }
         }
