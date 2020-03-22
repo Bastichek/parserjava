@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -23,8 +22,8 @@ public class main {
                 .filter(Files::isRegularFile)
                 .collect(Collectors.toList());
 
-        for (int i = 0; i < files.size(); i++) {
-            List<String> lines = Files.readAllLines(files.get(i), StandardCharsets.UTF_8);
+        for (Path file : files) {
+            List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
             for (int j = 0; j < lines.size(); j++) {
                 if (lines.get(j).contains(sear)) {
                     writer.write(lines.get(j) + "\n");
