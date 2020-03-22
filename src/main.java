@@ -24,6 +24,7 @@ public class main {
 
         for (Path file : files) {
             System.out.println("Файл: " + file);
+            writer.write("Файл:" + file + "\n");
             List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
             for (int j = 0; j < lines.size(); j++) {
                 if (lines.get(j).contains(sear)) {
