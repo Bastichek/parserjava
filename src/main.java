@@ -23,6 +23,7 @@ public class main {
                 .collect(Collectors.toList());
 
         for (Path file : files) {
+            System.out.println("Файл: " + file);
             List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
             for (int j = 0; j < lines.size(); j++) {
                 if (lines.get(j).contains(sear)) {
