@@ -5,35 +5,69 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
 public class main {
-    public static void main(String[] args) throws IOException {
-        FileWriter writer = new FileWriter("result.txt", false);
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите данные для поиска:");
-        String sear = scanner.nextLine();
-        System.out.println("Введите путь:");
-        String path = scanner.next();
+    public static void main(String[] args) {
+        String filePath = null;
+        String sear = null;
+        try {
+            filePath = args[0];
+            sear = args[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Error! Enter arguments! First - filePath, second - Search string");
+        }
 
-        List<Path> files = Files.walk(Paths.get(path))
-                .filter(Files::isRegularFile)
-                .collect(Collectors.toList());
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter("result.txt", false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        List<Path> files = null;
+        try {
+            files = Files.walk(Paths.get(filePath))
+                    .filter(Files::isRegularFile)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println("Error! Enter arguments! (folderPath)");
+        }
 
         for (Path file : files) {
-            System.out.println("Файл: " + file);
-            writer.write("Файл:" + file + "\n");
-            List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
-            for (int j = 0; j < lines.size(); j++) {
-                if (lines.get(j).contains(sear)) {
-                    writer.write(lines.get(j) + "\n");
-                    System.out.println("Найдено в строке: " + j + " / " + lines.size());
+            System.out.println("File: " + file);
+            try {
+                writer.write("File:" + file + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            List<String> lines = null;
+            try {
+                lines = Files.readAllLines(file, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                System.out.println("Error! Enter arguments! (filePath)");
+            }
+
+            for (String str : lines) {
+                if (str.contains(sear)) {
+                    try {
+                        writer.write(str + "\n");
+                        System.out.println("Find in: " + (lines.indexOf(str) + 1) + " / " + lines.size());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+
             }
         }
-        writer.close();
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
