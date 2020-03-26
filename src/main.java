@@ -19,35 +19,26 @@ public class main {
             System.out.println("Error! Enter arguments! First - filePath, second - Search string");
         }
 
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter("result.txt", false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        List<Path> files = null;
+        List<Path> files;
+        FileWriter writer;
         try {
+
             files = Files.walk(Paths.get(filePath))
                     .filter(Files::isRegularFile)
                     .collect(Collectors.toList());
-        } catch (IOException e) {
-            System.out.println("Error! Wrong argument! (folder)");
-        }
 
-        for (Path path : files) {
+            writer = new FileWriter("result.txt", false);
 
-            System.out.println("File: " + path);
-            try {
+            for (Path path : files) {
+
+                System.out.println("File: " + path);
+
                 writer.write("File:" + path + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
+                String line;
+                BufferedReader reader;
 
-            String line;
-            BufferedReader reader;
-            try {
                 reader = new BufferedReader(new FileReader(String.valueOf(path)));
                 int i = 1;
                 while ((line = reader.readLine()) != null) {
@@ -58,11 +49,7 @@ public class main {
                     i++;
 
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
-        try {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
